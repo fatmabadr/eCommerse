@@ -1,5 +1,5 @@
-@extends('Admin.admin_master')
-@section('mainContent')
+@extends('Admin.master')
+@section('content')
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 <section class="content">

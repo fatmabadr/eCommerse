@@ -101,10 +101,11 @@
 			</ul>
 		  </li>
 
+
 	      <!-- User Account-->
           <li class="dropdown user user-menu">
 			<a href="#" class="waves-effect waves-light rounded dropdown-toggle p-0" data-toggle="dropdown" title="User">
-				<img src="{{!empty($adminData->photoDirectory)? '/backend/admin/profileImages/'.$adminData->photoDirectory : ("/backend/images/user3-128x128.jpg")}}" alt="">
+				<img src="{{!empty(Auth::guard('admin')->user()->photoDirectory)? '/backend/admin/profileImages/'.Auth::guard('admin')->user()->photoDirectory : ("/backend/images/user3-128x128.jpg")}}" alt="">
 			</a>
 			<ul class="dropdown-menu animated flipInX">
 			  <li class="user-body">

@@ -9,5 +9,5 @@
 		  </li>
 		</ul>
     </div>
-	  &copy; 2020 <a href="#">Psd to Html Expert</a>. All Rights Reserved.
+	 made by <a href="#">Fatma Badr</a>. All Rights Reserved.
   </footer>

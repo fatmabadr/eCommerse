@@ -1,9 +1,14 @@
-@extends('Admin.admin_master')
-@section('mainContent')
+@extends('Admin.master')
+@section('content')
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 <section class="content">
 
+
+    @if(Session::has('succ'))
+    <div class="btn btn-primary" role="alert">
+        {{Session::get('succ')}}</div>
+        @endif
     <!-- Basic Forms -->
      <div class="box">
        <div class="box-header with-border">
@@ -42,20 +47,15 @@
                             <div class="col-sm-10">
                             <img id ="showImage"src="{{!empty($adminData->photoDirectory)? '/backend/admin/profileImages/'.$adminData->photoDirectory : ('/backend/images/user3-128x128.jpg')}}" alt="avatar-5" class="rounded avatar-lg">
 @if (!empty($adminData->photoDirectory))
-                            <a href="{{route('deleteImage')}}" type="button" class="btn btn-success mb-5">Delete Image</a>
-                        </div>
+<a class="btn btn-primary" href="{{route('delete.admin.image')}}" role="button">Delete Image</a>
 @endif
-
-
-
-@if(Session::has('succ'))
-<div class="alert alert-danger" role="alert">
-    {{Session::get('succ')}}
-    @endif
-</div>
                         </div>
 
-                        <button type="submit" class="btn btn-primary mb-5">Save Data</button>               </form>
+
+
+                        </div>
+                        <input type="submit" class="btn btn-rounded btn-primary mb-5" value="Save Data">
+            </form>
 
            </div>
            <!-- /.col -->

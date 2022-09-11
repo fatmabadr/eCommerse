@@ -1,9 +1,14 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\AdminProfileController;
+use App\Http\Controllers\admin\AdminController;
+use App\Http\Controllers\admin\AdminProfileController;
 use App\Http\Controllers\frontend\indexController;
+use App\Http\Controllers\admin\brandController;
+use App\Http\Controllers\admin\CategoryController;
+use App\Http\Controllers\admin\SubCagegoryController;
+use App\Http\Controllers\admin\SubsubCagegoryController;
+use App\Http\Controllers\admin\productController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -35,9 +40,67 @@ Route::prefix('admin')->group(function(){
    Route::get('profile',[AdminProfileController::class,'profileData'])->name('admin.profile')->middleware('admin');
    Route::get('profile/edite',[AdminProfileController::class,'editeProfile'])->name('admin.profile.edite')->middleware('admin');
    Route::post('profile/edite',[AdminProfileController::class,'save_edites_Profile'])->name('admin.save.edits')->middleware('admin');
-   Route::get('profile/deleteImage',[AdminProfileController::class,'deleteImage'])->name('deleteImage')->middleware('admin');
+   Route::get('profile/deleteImage',[AdminProfileController::class,'deleteImage'])->name('delete.admin.image')->middleware('admin');
    Route::get('changepassword',[AdminProfileController::class,'changepassword'])->name('admin.changepassword')->middleware('admin');
    Route::post('changepassword',[AdminProfileController::class,'check_and_save_newpassword'])->name('admin.save.newPassword')->middleware('admin');
+
+});
+
+
+
+//brands
+route::prefix('brand')->group(function(){
+    route::get('view',[brandController::class,'brandsView'])->name('brands.view');
+    route::post('newBrand/save',[brandController::class,'brandSave'])->name('brand.save');
+    route::get('delete/{id}',[brandController::class,'brandDelete'])->name('brand.delete');
+    route::get('edit/{id}',[brandController::class,'brandEdit'])->name('brand.edite');
+    route::post('edit',[brandController::class,'brandUpdat'])->name('brand.updat');
+
+
+
+});
+
+
+
+//categories
+route::prefix('category')->group(function(){
+    route::get('view',[CategoryController::class,'categoriesView'])->name('categories.view');
+    route::post('newCategory/save',[CategoryController::class,'CategorySave'])->name('Category.save');
+    route::get('delete/{id}',[CategoryController::class,'CategoryDelete'])->name('Category.delete');
+    route::get('edit/{id}',[CategoryController::class,'CategoryEdit'])->name('Category.edite');
+    route::post('edit',[CategoryController::class,'CategoryUpdat'])->name('category.updat');
+
+
+
+//subCategories
+route::prefix('subCategory')->group(function(){
+    route::get('view',[SubCagegoryController::class,'subCategoriesView'])->name('subCategories.view');
+    route::post('save',[SubCagegoryController::class,'subCategorySave'])->name('subCategory.save');
+    route::get('delete/{id}',[SubCagegoryController::class,'subCategorDelete'])->name('subCategory.delete');
+    route::get('edit/{id}',[SubCagegoryController::class,'subCategorEdit'])->name('subCategory.edite');
+    route::post('edit',[SubCagegoryController::class,'subCategorUpdat'])->name('subCategory.updat');
+
+    route::prefix('sub->subCategory')->group(function(){
+        route::get('view',[SubsubCagegoryController::class,'subsubCategoriesView'])->name('sub->subCategories.view');
+        route::post('save',[SubsubCagegoryController::class,'subsubCategorySave'])->name('sub->subCategory.save');
+        route::get('delete/{id}',[SubsubCagegoryController::class,'subsubCategorDelete'])->name('sub->subCategory.delete');
+        route::get('edit/{id}',[SubsubCagegoryController::class,'subsubCategorEdit'])->name('sub->subCategory.edite');
+        route::post('edit',[SubsubCagegoryController::class,'subsubCategorUpdat'])->name('sub->subCategory.updat');
+
+    });
+
+
+});
+});
+
+//products
+route::prefix('product')->group(function(){
+    route::get('add',[productController::class,'addNewProduct'])->name('product.add');
+    route::post('add',[productController::class,'saveNewProduct'])->name('product.save');
+    route::get('manage',[productController::class,'mangeProduct'])->name('products.mange');
+    route::get('edit/{id}',[productController::class,'editProduct'])->name('product.edit');
+    route::post('edit',[productController::class,'updateProduct'])->name('product.update');
+    route::get('delete/{id}',[productController::class,'deleteProduct'])->name('product.delete');
 });
 
 
@@ -49,12 +112,10 @@ Route::prefix('admin')->group(function(){
 route::get('/home',function (){return view('user.index');})->name('home');
 
 Route::prefix('user')->group(function(){
-
 route::get('login',[indexController::class,'login'])->name('user.login');
 route::get('changepassword',[indexController::class,'changepassword'])->name('user.change.password')->middleware('auth');
 route::post('changepassword',[indexController::class,'check_and_save_newpassword'])->name('user.change.password');
 route::get('profile',[indexController::class,'profileData'])->name('user.profile')->middleware('auth');
-
 route::post('login',[indexController::class,'checkLoginData'])->name('user.login.check');
 route::post('register',[indexController::class,'store'])->name('user.register.check');
 route::get('logout',[indexController::class,'logout'])->name('user.logout');
@@ -64,4 +125,16 @@ route::get('profile',[indexController::class,'profile'])->name('user.profile')->
 route::get('profile/update',[indexController::class,'updatProfile'])->name('user.update.profile')->middleware('auth');
 route::post('profile/update',[indexController::class,'save_edites_Profile'])->name('users.save.edits')->middleware('auth');
 route::get('profile/image/delete',[indexController::class,'deleteImage'])->name('deleteImage')->middleware('auth');
+
+
+
+
 });
+
+
+Route::get('/category/subcategory/ajax/{category_id}', [SubCagegoryController::class, 'GetSubCategory']);
+Route::get('/category/subcategory/subsubcategory/ajax/{subcategory_id}',[SubsubCagegoryController::class ,'GetsubSubCategory']);
+
+
+
+
