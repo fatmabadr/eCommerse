@@ -63,11 +63,8 @@ class productController extends Controller
              'created_at' => Carbon::now(),
              'product_thambnail'=>$fileName
         ]);
-
     if ($request->file('multi_img')){
-
        $images=$request->file('multi_img');
-
        foreach($images as $image){
             $fileName=date('YmdHp').$image->getClientOriginalName();
             Image::make($image)->resize(917,1000)->save('backend/admin/multi-image/'.$fileName);
@@ -76,8 +73,6 @@ class productController extends Controller
                 'PhotoName'=>$fileName
             ]);
         }
-
-
 		return redirect()->back()->with("succ",'Product Inserted Successfully');
     }}
     //end of function
@@ -94,32 +89,41 @@ class productController extends Controller
         $allCategories=Catgory::latest()->get();
         $allsubcategory=Subcategory::latest()->get();
 
-        return view('admin.product.edit',compact('allBrands','allCategories','allsubcategory','product'));
+        $productimages=ProductImage::where('product_id',$id)->get();
+
+        return view('admin.product.edit',compact('allBrands','allCategories','allsubcategory','product','productimages'));
 
     }
     //end of function
     public function updateProduct(Request $request){
+         $product= Product::find($request->id);
+         if ($request->file('product_thambnail')){
+             $filename=date('YmdHp').$request->file('product_thambnail')->getClientOriginalName();
 
-       $product= Product::find($request->id);
+             Image::make($request->file('product_thambnail'))->resize(917,1000)->save('backend/admin/ProductImages/'.$filename);
+        if (file_exists(  'backend/admin/ProductImages/'.$product->product_thambnail)) {
 
-        $product->category_id= $request->category_id;
+             unlink('backend/admin/ProductImages/'.$product->product_thambnail);}
 
-       $product->brand_id=$request->brand_id ;
+             $product->product_thambnail= $filename;
+             $product->save();
+                                                 }
 
-       $product->subcategory_id=$request->subcategory_id;
-
-       $product->subsubcategory_id=$request->subsubcategory_id;
-       $product->name_english=$request->product_name_english;
-       $product->name_arabic=$request->product_name_arabic;
-       $product->slag_english=$request->product_name_english;
-       $product->slag_arabic=$request->product_name_arabic;
-       $product->code=$request->product_code;
-       $product->quantity=$request->product_quantity ;
-       $product->tags_english=$request->product_tags_en;
-       $product->tags_arabic=$request->product_tags_arabic ;
-       $product->size_english=$request->product_size_en ;
-       $product->color_english=$request->product_color_en;
-       $product->size_arabic=$request->product_size_arabic;
+         $product->category_id= $request->category_id;
+         $product->brand_id=$request->brand_id ;
+         $product->subcategory_id=$request->subcategory_id;
+         $product->subsubcategory_id=$request->subsubcategory_id;
+         $product->name_english=$request->product_name_english;
+         $product->name_arabic=$request->product_name_arabic;
+         $product->slag_english=$request->product_name_english;
+         $product->slag_arabic=$request->product_name_arabic;
+         $product->code=$request->product_code;
+         $product->quantity=$request->product_quantity ;
+         $product->tags_english=$request->product_tags_en;
+         $product->tags_arabic=$request->product_tags_arabic ;
+         $product->size_english=$request->product_size_en ;
+         $product->color_english=$request->product_color_en;
+         $product->size_arabic=$request->product_size_arabic;
          $product->color_arabic=$request->product_color_arabic;
          $product->selling_price=$request->silling_price;
          $product->discount_price=$request->descount_price;
@@ -131,7 +135,6 @@ class productController extends Controller
          $product->featured=$request->featured;
          $product->specialoffer=$request->specialoffer;
          $product->specialdeals=$request->specialdeals;
-         $product->status=1;
          $product->created_at = Carbon::now();
 
 $product->save();
@@ -143,4 +146,37 @@ $product->save();
         return redirect()->route('products.mange')->with('succ','product deleted successfully!');
     }
     //end of function
+    public function updateMultiImages(Request $request){
+
+        $images=$request->multi_img;
+        if(!empty($images)){
+        foreach($images as $id=>$image) {
+            $imageDelete=ProductImage::findorfail($id);
+            unlink('backend/admin/multi-image/'.$imageDelete->PhotoName);
+            $fileName=date('YmdHp').$image->getClientOriginalName();
+            Image::make($image)->resize(917,1000)->save('backend/admin/multi-image/'.$fileName);
+            ProductImage::where('id',$id)->update([
+                'PhotoName'=>$fileName
+            ]);}}
+            if ($request->file('newImages')){
+                $images=$request->file('newImages');
+                foreach($images as $image){
+                     $fileName=date('YmdHp').$image->getClientOriginalName();
+                     Image::make($image)->resize(917,1000)->save('backend/admin/multi-image/'.$fileName);
+                     ProductImage::insert([
+                         'product_id'=>$request->id,
+                         'PhotoName'=>$fileName
+                     ]);
+                 }
+
+
+        }
+        return redirect()->back();
+    }
+    //end of function
+    public function deleteImage($id){
+        ProductImage::destroy($id);
+        return redirect()->back();
+    }
+//end of function
 }

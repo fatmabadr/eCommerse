@@ -101,6 +101,11 @@ route::prefix('product')->group(function(){
     route::get('edit/{id}',[productController::class,'editProduct'])->name('product.edit');
     route::post('edit',[productController::class,'updateProduct'])->name('product.update');
     route::get('delete/{id}',[productController::class,'deleteProduct'])->name('product.delete');
+    route::post('multiImages',[productController::class,'updateMultiImages'])->name('product.multiImages.update');
+    Route::post('/thambnail/update', [ProductController::class, 'ThambnailImageUpdate'])->name('update-product-thambnail');
+    route::get('iamge/delete/{id}',[productController::class,'deleteImage'])->name('product.image.delete');
+
+
 });
 
 

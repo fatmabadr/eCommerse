@@ -1,8 +1,8 @@
 @extends('Admin.master')
 @section('content')
 
-
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 
 <div class="col-12">
     <div class="box">
@@ -194,40 +194,31 @@
 
 
     <div class="row">
-        <div class="col-md-3 col-12">
+        <div class="col-md-4 col-12">
        <div class="form-group">
            <h5>silling price <span class="text-danger">*</span></h5>
            <div class="controls">
                <input type="text" name="silling_price" class="form-control" value="{{$product->selling_price}}"required="" data-validation-required-message="This field is required"> <div class="help-block"></div>
        </div></div>
         </div>
-         <div class="col-md-3 col-12">
+         <div class="col-md-4 col-12">
        <div class="form-group">
           <h5>Discount Price <span class="text-danger">*</span></h5>
           <div class="controls">
               <input type="text" name="descount_price" class="form-control" value="{{$product->discount_price}}"required="" data-validation-required-message="This field is required"> <div class="help-block"></div>
       </div></div></div>
-      <div class="col-md-3">
 
+      <div class="col-md-4">
 	    <div class="form-group">
 			<h5>Main Thambnail <span class="text-danger">*</span></h5>
 			<div class="controls">
 	 <input type="file" name="product_thambnail" class="form-control" onchange="mainthamsURL(this)">
-<img src="" id="mainThaumbles">
+<img src="/backend/admin/productimages/{{$product->product_thambnail}}" id="mainThaumbles"style="height: 130px; width: 280px;">
+
 	 		 </div>
 		</div>
 	</div>
-        <div class="col-md-3">
 
-            <div class="form-group">
-                <h5>Multiple Image <span class="text-danger">*</span></h5>
-                <div class="controls">
-         <input type="file" name="multi_img[]" multiple="" id="multiImg" class="form-control" >
-         <div class="row" id="preview_img"></div>
-                  </div>
-            </div>
-                </div>
-    </div>
 
               </div>
 
@@ -284,8 +275,6 @@
 </div>
 
 
-
-
 <div class="col-md-3">
 	<div class="form-group">
 
@@ -324,6 +313,79 @@
 <!-- /.content -->
 
 </div>
+
+<section class="content">
+    <div class="row">
+
+<div class="col-md-12">
+               <div class="box bt-3 border-info">
+                 <div class="box-header">
+        <h4 class="box-title">Product Multiple Image <strong>Update</strong></h4>
+                 </div>
+
+
+       <form method="post" action="{{route('product.multiImages.update')}}" enctype="multipart/form-data">
+@csrf
+           <div class="row row-sm">
+               @foreach($productimages as $img)
+               <div class="col-md-3">
+                <input type='hidden' name="id" value="{{$product->id}}">
+<div class="card">
+ <img src="/backend/admin/multi-image/{{$img->PhotoName }}" class="card-img-top" style="height: 130px; width: 280px;">
+ <div class="card-body">
+   <h5 class="card-title">
+<a href="{{route('product.image.delete',$img->id)}}" class="btn btn-sm btn-danger" id="delete" title="Delete image"><i class="fa fa-trash"></i> </a>
+    </h5>
+   <p class="card-text">
+       <div class="form-group">
+           <label class="form-control-label">Change Image <span class="tx-danger">*</span></label>
+           <input class="form-control" type="file" name="multi_img[{{ $img->id }}]">
+                </div>
+            </p>
+
+            </div>
+            </div>
+               </div><!--  end col md 3		 -->
+               @endforeach
+
+           </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <h5>add New Images <span class="text-danger">*</span></h5>
+                <div class="controls">
+         <input type="file" name="newImages[]" multiple="" id="newiamges" class="form-control" >
+         <div class="row" id="preview_img"></div>
+                  </div>
+            </div>
+
+    </div>
+
+           <div class="text-xs-right">
+    <input type="submit" class="btn btn-rounded btn-primary mb-5" value="Update Image">
+        </div>
+<br><br>
+
+
+
+       </form>
+
+
+
+
+
+               </div>
+             </div>
+
+
+
+    </div> <!-- // end row  -->
+
+</section>
+
+
+
+
 
 
 
@@ -386,11 +448,10 @@ function mainthamsURL(input){
 
 
 
-
 <script>
 
   $(document).ready(function(){
-   $('#multiImg').on('change', function(){ //on file input change
+   $('#newiamges').on('change', function(){ //on file input change
       if (window.File && window.FileReader && window.FileList && window.Blob) //check File API supported browser
       {
           var data = $(this)[0].files; //this file data
@@ -416,4 +477,8 @@ function mainthamsURL(input){
   });
 
   </script>
+
+
+
+
 @endsection
