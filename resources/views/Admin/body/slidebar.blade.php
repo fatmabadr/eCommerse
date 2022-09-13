@@ -79,6 +79,23 @@
           </ul>
         </li>
 
+
+
+        <li class="treeview {{Request::route()->getPrefix()=='/slider'?'active' : ''}}">
+            <a href="#">
+              <i data-feather="file"></i>
+              <span>Slider</span>
+              <span class="pull-right-container">
+                <i class="fa fa-angle-right pull-right"></i>
+              </span>
+            </a>
+            <ul class="treeview-menu">
+
+              <li><a href="{{route('slider.mange')}}"><i class="ti-more"></i>Manage Slider</a></li>
+
+            </ul>
+          </li>
+
         <li class="header nav-small-cap">User Interface</li>
 
         <li class="treeview">

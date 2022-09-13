@@ -9,6 +9,7 @@ use App\Http\Controllers\admin\CategoryController;
 use App\Http\Controllers\admin\SubCagegoryController;
 use App\Http\Controllers\admin\SubsubCagegoryController;
 use App\Http\Controllers\admin\productController;
+use App\Http\controllers\admin\SliderController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -46,9 +47,8 @@ Route::prefix('admin')->group(function(){
 
 });
 
-
-
 //brands
+Route::middleware(['admin'])->group(function () {
 route::prefix('brand')->group(function(){
     route::get('view',[brandController::class,'brandsView'])->name('brands.view');
     route::post('newBrand/save',[brandController::class,'brandSave'])->name('brand.save');
@@ -58,19 +58,18 @@ route::prefix('brand')->group(function(){
 
 
 
-});
+});});
 
 
 
 //categories
+Route::middleware(['admin'])->group(function () {
 route::prefix('category')->group(function(){
     route::get('view',[CategoryController::class,'categoriesView'])->name('categories.view');
     route::post('newCategory/save',[CategoryController::class,'CategorySave'])->name('Category.save');
     route::get('delete/{id}',[CategoryController::class,'CategoryDelete'])->name('Category.delete');
     route::get('edit/{id}',[CategoryController::class,'CategoryEdit'])->name('Category.edite');
     route::post('edit',[CategoryController::class,'CategoryUpdat'])->name('category.updat');
-
-
 
 //subCategories
 route::prefix('subCategory')->group(function(){
@@ -87,13 +86,14 @@ route::prefix('subCategory')->group(function(){
         route::get('edit/{id}',[SubsubCagegoryController::class,'subsubCategorEdit'])->name('sub->subCategory.edite');
         route::post('edit',[SubsubCagegoryController::class,'subsubCategorUpdat'])->name('sub->subCategory.updat');
 
-    });
+    });});});});
 
 
-});
-});
+
 
 //products
+
+Route::middleware(['admin'])->group(function () {
 route::prefix('product')->group(function(){
     route::get('add',[productController::class,'addNewProduct'])->name('product.add');
     route::post('add',[productController::class,'saveNewProduct'])->name('product.save');
@@ -105,8 +105,19 @@ route::prefix('product')->group(function(){
     Route::post('/thambnail/update', [ProductController::class, 'ThambnailImageUpdate'])->name('update-product-thambnail');
     route::get('iamge/delete/{id}',[productController::class,'deleteImage'])->name('product.image.delete');
 
-
 });
+});
+
+//slider
+Route::middleware(['admin'])->group(function () {
+route::prefix('slider')->group(function(){
+    route::get('manage',[SliderController::class,'manageSlider'])->name('slider.mange');
+    route::post('add',[SliderController::class,'saveSlider'])->name('slider.save');
+    route::get('edit/{id}',[SliderController::class,'editSlider'])->name('slider.edit');
+    route::post('edit',[SliderController::class,'updateSlider'])->name('slider.updat');
+    route::get('delete/{id}',[SliderController::class,'deleteSlider'])->name('slider.delete');
+
+});});
 
 
 
@@ -115,7 +126,6 @@ route::prefix('product')->group(function(){
 
 //frontend
 route::get('/home',function (){return view('user.index');})->name('home');
-
 Route::prefix('user')->group(function(){
 route::get('login',[indexController::class,'login'])->name('user.login');
 route::get('changepassword',[indexController::class,'changepassword'])->name('user.change.password')->middleware('auth');

@@ -10,7 +10,7 @@ class brandController extends Controller
 {
     public function brandsView(){
             $brands=Brand::latest()->get();
-            return view('admin.brandsView',compact('brands'));
+            return view('admin.brand.brandsView',compact('brands'));
     }
 //end of function
 
