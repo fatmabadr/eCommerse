@@ -96,14 +96,15 @@ class productController extends Controller
     }
     //end of function
     public function updateProduct(Request $request){
+
          $product= Product::find($request->id);
          if ($request->file('product_thambnail')){
              $filename=date('YmdHp').$request->file('product_thambnail')->getClientOriginalName();
 
              Image::make($request->file('product_thambnail'))->resize(917,1000)->save('backend/admin/ProductImages/'.$filename);
-        if (file_exists(  'backend/admin/ProductImages/'.$product->product_thambnail)) {
+        if (file_exists('/backend/admin/ProductImages/'.$product->product_thambnail)) {
 
-             unlink('backend/admin/ProductImages/'.$product->product_thambnail);}
+             unlink('/backend/admin/ProductImages/'.$product->product_thambnail);}
 
              $product->product_thambnail= $filename;
              $product->save();
@@ -131,14 +132,17 @@ class productController extends Controller
          $product->short_description_arabic=$request->short_descp_arabic;
          $product-> long_description_english=$request->long_descp_english;
          $product->long_description_arabic=$request->long_descp_arabic;
-         $product->hotDeals=$request->hot_deal;
-         $product->featured=$request->featured;
-         $product->specialoffer=$request->specialoffer;
-         $product->specialdeals=$request->specialdeals;
+         if(!empty($request->hot_deal ))
+         {$product->hotDeals='1';}
+         if(!empty($request->featured))
+         {$product->featured='1';}
+         if(!empty($request->special_offer ))
+        { $product->specialoffer='1';}
+         if(!empty($request->special_deals ))
+        {$product->specialdeals='1';}
          $product->created_at = Carbon::now();
-
-$product->save();
-        return  redirect()->route('products.mange')->with('succ','product updated successfully!');
+         $product->save();
+         return  redirect()->route('products.mange')->with('succ','product updated successfully!');
     }
     //end of function
     public function deleteProduct($id){

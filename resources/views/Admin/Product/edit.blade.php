@@ -280,22 +280,22 @@
 
 		<div class="controls">
 			<fieldset>
-				<input type="checkbox" id="checkbox_3" name="hot_deal" value="{{$product->hotDeals}}">
+				<input type="checkbox" id="checkbox_3" name="hot_deal"  >
 				<label for="checkbox_3">Hot Deal</label>
 			</fieldset>
 
 			<fieldset>
-				<input type="checkbox" id="checkbox_4" name="special_deals" value="{{$product->specialdeals}}">
+				<input type="checkbox" id="checkbox_4" name="special_deals"  >
 				<label for="checkbox_4">Special Deals</label>
 			</fieldset>
 
             <fieldset>
-				<input type="checkbox" id="checkbox_5" name="featured" value="{{$product->featured}}">
+				<input type="checkbox" id="checkbox_5" name="featured"  >
 				<label for="checkbox_5">Featured</label>
 			</fieldset>
 
             <fieldset>
-				<input type="checkbox" id="checkbox_6" name="special_offer" value="{{$product->specialoffer}}">
+				<input type="checkbox" id="checkbox_6" name="special_offer" >
 				<label for="checkbox_6">Special offer</label>
 			</fieldset>
 

@@ -17,7 +17,7 @@ class SliderController extends Controller
     public function saveSlider(Request $request){
 
             $filename=hexdec(uniqid()).'.'.$request->file('slideImage')->getClientOriginalExtension();
-            Image::make($request->file('slideImage'))->resize(870,370)->save('backend/admin/slider'.$filename);
+            Image::make($request->file('slideImage'))->resize(870,370)->save('backend/admin/slider/'.$filename);
         Slider::insert([
             'title' =>$request->title,
             'description'=>$request->description,
@@ -40,7 +40,7 @@ class SliderController extends Controller
   if($request->file('slideImage')) {
     $filename=hexdec(uniqid()).'.'.$request->file('slideImage')->getClientOriginalExtension();
     @unlink('backend/admin/slider'.$slider->slider_img);
-    Image::make($request->file('slideImage'))->resize(870,370)->save('backend/admin/slider'.$filename);
+    Image::make($request->file('slideImage'))->resize(870,370)->save('backend/admin/slider/'.$filename);
     $slider->slider_img =$filename;
   }
 

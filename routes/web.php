@@ -10,6 +10,9 @@ use App\Http\Controllers\admin\SubCagegoryController;
 use App\Http\Controllers\admin\SubsubCagegoryController;
 use App\Http\Controllers\admin\productController;
 use App\Http\controllers\admin\SliderController;
+use App\Http\controllers\frontend\languageController;
+use App\Http\Controllers\frontend\HomeController;
+use App\Http\Controllers\frontend\cartControleller;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -125,7 +128,7 @@ route::prefix('slider')->group(function(){
 
 
 //frontend
-route::get('/home',function (){return view('user.index');})->name('home');
+route::get('/home',[HomeController::class,'getAllData'])->name('home');
 Route::prefix('user')->group(function(){
 route::get('login',[indexController::class,'login'])->name('user.login');
 route::get('changepassword',[indexController::class,'changepassword'])->name('user.change.password')->middleware('auth');
@@ -142,8 +145,6 @@ route::post('profile/update',[indexController::class,'save_edites_Profile'])->na
 route::get('profile/image/delete',[indexController::class,'deleteImage'])->name('deleteImage')->middleware('auth');
 
 
-
-
 });
 
 
@@ -151,5 +152,19 @@ Route::get('/category/subcategory/ajax/{category_id}', [SubCagegoryController::c
 Route::get('/category/subcategory/subsubcategory/ajax/{subcategory_id}',[SubsubCagegoryController::class ,'GetsubSubCategory']);
 
 
+//language
+Route::get('language/english',[languageController::class,'English'])->name('language.english');
+Route::get('language/arabic',[languageController::class,'Arabic'])->name('language.arabic');
 
+
+Route::get('product/details/{id}',[HomeController::class,'productDetails'])->name('product.details');
+Route::get('/product/tag/{tag}', [HomeController::class, 'TagProducts']);
+Route::get('/{name}/{id}',[HomeController::class,'getSubCategoryProducts']);
+Route::get('/subsubcategory/{name}/{id}',[HomeController::class,'getSubsubCategoryProducts']);
+
+Route::get('/product/view/modal/{id}',[HomeController::class,'getproduct_json']);
+//add to cart
+Route::post('cart/data/store/{product_id}',[cartControleller::class,'addToCart']);
+Route::get('product/mini/cart',[cartControleller::class,'minicart']);
+Route::get('/mincart/remove/{rowId}',[cartControleller::class,'removeitem']);
 

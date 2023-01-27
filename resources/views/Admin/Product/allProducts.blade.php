@@ -44,6 +44,8 @@
      <td>{{ $item->name_arabic }}</td>
      <td>{{ $item->quantity }}</td>
     <td>
+
+<a href=" " class="btn btn-arrow-up" title="Edit Data"><i class="fa fa-arrow-up"></i> </a>
 <a href="{{ route('product.edit',$item->id) }}" class="btn btn-info" title="Edit Data"><i class="fa fa-pencil"></i> </a>
 <a href="{{ route('product.delete',$item->id) }}" class="btn btn-danger" title="Delete Data" id="delete">
  <i class="fa fa-trash"></i></a>

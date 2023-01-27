@@ -35,8 +35,8 @@ return new class extends Migration
             $table->integer('discount_price')->nullable();
             $table->string('short_description_english');
             $table->string('short_description_arabic');
-            $table->string('long_description_english');
-            $table->string('long_description_arabic');
+            $table->text('long_description_english');
+            $table->text('long_description_arabic');
             $table->integer('hotDeals')->default(0);
             $table->integer('featured')->default(0);
             $table->integer('specialoffer')->default(0);

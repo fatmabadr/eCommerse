@@ -64,7 +64,7 @@
 
 
                             <tr>
-                                <td><img src=""></td>
+                                <td><img src="/backend/admin/slider/{{$slider->slider_img}}"></td>
 								<td>{{$slider->title}}</td>
                                 <td>{{$slider->description}}</td>
                                 <td>{{$slider->status}}</td>
