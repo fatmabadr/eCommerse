@@ -13,6 +13,7 @@ use App\Http\controllers\admin\SliderController;
 use App\Http\controllers\frontend\languageController;
 use App\Http\Controllers\frontend\HomeController;
 use App\Http\Controllers\frontend\cartControleller;
+use App\Http\Controllers\WishListController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -161,10 +162,19 @@ Route::get('product/details/{id}',[HomeController::class,'productDetails'])->nam
 Route::get('/product/tag/{tag}', [HomeController::class, 'TagProducts']);
 Route::get('/{name}/{id}',[HomeController::class,'getSubCategoryProducts']);
 Route::get('/subsubcategory/{name}/{id}',[HomeController::class,'getSubsubCategoryProducts']);
-
 Route::get('/product/view/modal/{id}',[HomeController::class,'getproduct_json']);
+
 //add to cart
 Route::post('cart/data/store/{product_id}',[cartControleller::class,'addToCart']);
 Route::get('product/mini/cart',[cartControleller::class,'minicart']);
 Route::get('/mincart/remove/{rowId}',[cartControleller::class,'removeitem']);
 
+
+//wish list
+Route::group(['middleware'=>['user','auth'],'namespace'=>'User'],function(){
+
+Route::post('/addtowishlist/{product_id}',[WishListController::class,'addtowishlist']);
+Route::get('/wishlist/',[WishListController::class,'Getwishlist'])->name('wishList.page');
+Route::get('/getwishlist',[WishListController::class,'getWishListproducts']);
+Route::post('/deletefromwishlist/{id}',[WishListController::class,'removeProductFromwishList']);
+});

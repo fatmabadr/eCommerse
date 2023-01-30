@@ -344,11 +344,117 @@ success:function(data){
     })
 }
 
-
-
-//end of cart remove
 </script>
 
+//end of cart remove
 
+
+//add to wishlist
+<script type="text/javascript">
+
+    function addToWishList(product_id){
+        $.ajax({
+            type:"post",
+            datatype:"json",
+            url:"/addtowishlist/"+product_id,
+            success:function(data){
+                //  // Start Message
+              const Toast = Swal.mixin({
+             toast: true,
+              position: 'top-end',
+
+                     showConfirmButton: false,
+                     timer: 3000
+                   })
+                if ($.isEmptyObject(data.error)) {
+                   Toast.fire({
+                       type: 'success',
+                       icon: 'success',
+                       title: data.success
+                   })
+
+           }
+              else
+              {
+                   Toast.fire({
+                       type: 'error',
+                       icon: 'error',
+                       title: data.error
+                   })
+
+            }
+        }
+                //  // End Message
+        })
+    }
+
+//end of add to wishlist
+</script>
+
+//start of wish list page function
+<script type="text/javascript">
+    function WishList(){
+        $.ajax({
+            type:'get',
+            dataType:'json',
+            url:'/getwishlist',
+            success:function(response){
+                var rows=""
+                $.each(response,function(key,value){
+                    rows+=` <tr>
+					<td class="col-md-2"><img src="/backend/admin/ProductImages/${value.product.product_thambnail}" alt="imga"></td>
+					<td class="col-md-7">
+						<div class="product-name"><a href="#">${value.product.name_english}</a></div>
+
+						<div class="price">
+							$ ${value.product.discount_price}
+							<span>$ ${value.product.selling_price}</span>
+						</div>
+					</td>
+					<td class="col-md-2">
+						<a href="#" class="btn-upper btn btn-primary">Add to cart</a>
+					</td>
+					<td class="col-md-1 close-btn">
+						<button type="submit" id="${value.id}" onclick="wishListRemoveProduct(this.id)"><a href="#" class=""><i class="fa fa-times"></i></a></button>
+					</td>
+				</tr>`
+                });
+                    $('#WishList').html(rows);
+                }
+
+
+
+        })
+    }
+
+
+
+
+WishList();
+</script>
+//end of function
+
+//remove from wishList function
+<script type="text/javascript">
+
+function wishListRemoveProduct(id){
+    $.ajax({
+        type:"post",
+        dataType:"json",
+        url:"/deletefromwishlist/"+id,
+        success:function(response){
+            Swal.fire({
+  position: 'top-end',
+  icon: 'success',
+  title: 'removed from wishList successfully ^_^',
+  showConfirmButton: false,
+  timer: 500
+})
+WishList()
+
+        }
+    })
+}
+</script>
 </body>
 </html>

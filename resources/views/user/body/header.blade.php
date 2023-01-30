@@ -7,7 +7,7 @@
           <div class="cnt-account">
             <ul class="list-unstyled">
              @if(Auth::guard('web')->check()) <li><a href="{{route('user.profile')}}"> <i class="icon fa fa-heart"></i> @if (Session()->get('language')=='Arabic') حسابي @else My Account @endif  </a></li>  @endif
-              <li><a href="#"><i class="icon fa fa-heart"></i>@if (Session()->get('language')=='Arabic') قائمة  امنياتي @else Wishlist @endif</a></li>
+              <li><a href="{{route('wishList.page')}}"><i class="icon fa fa-heart"></i>@if (Session()->get('language')=='Arabic') قائمة  امنياتي @else Wishlist @endif</a></li>
               <li><a href="#"><i class="icon fa fa-shopping-cart"></i> @if (Session()->get('language')=='Arabic') عربة التسوق@else My Cart @endif</a></li>
               <li><a href="#"><i class="icon fa fa-check"></i>Checkout</a></li>
             @if(Auth::guard('web')->check())

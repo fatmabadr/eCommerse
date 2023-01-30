@@ -45,6 +45,7 @@ class cartControleller extends Controller
 
     }
     public function removeitem($rowId){
+
         Cart::remove($rowId);
         return response()->json(['success'=>'product remove succesfully']);
 

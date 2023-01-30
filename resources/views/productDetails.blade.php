@@ -558,23 +558,12 @@ $RelatedProducts=App\Models\Product::where('category_id',$product->category_id)-
 							<button class="btn btn-primary icon" data-toggle="modal"  id="{{$product->id}}"  onclick="productView(this.id)" data-target="#exampleModal" type="button">
 								<i class="fa fa-shopping-cart"></i>
 
-
-
-
-
-
 							</button>
-
-	<button class="btn btn-primary cart-btn" type="button">Add to cart</button>
-
 						</li>
-
-		                <li class="lnk wishlist">
-							<a class="add-to-cart" href="detail.html" title="Wishlist">
-								 <i class="icon fa fa-heart"></i>
-							</a>
-						</li>
-
+                        <li>
+<button class="btn btn-primary icon" type="button" title="add to wishlist" id="{{$product->id}}" onclick="addToWishList(this.id)">
+    <i class="fa fa-heart"></i> </button>
+</li>
 						<li class="lnk">
 							<a class="add-to-cart" href="detail.html" title="Compare">
 							    <i class="fa fa-signal"></i>
